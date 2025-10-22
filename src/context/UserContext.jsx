@@ -33,7 +33,7 @@ export const UserProvider = ({ children }) => {
         );
         const res=await getOrganizationById(activeMembership.organization_id);
         activeMembership.organization={name:res.org.name}
-      
+       console.log(activeMembership.organization.name)
         // ✅ Safe access: fallback if organization object is missing
         setActiveOrg({
           id: activeMembership?.organization_id,

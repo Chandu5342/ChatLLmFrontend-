@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import { UserContext } from "./UserContext";
 
@@ -11,33 +11,31 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (!user?.id) return;
 
-    // Disconnect old socket if any
+    // Disconnect previous socket if exists
     if (socket.current) {
       socket.current.disconnect();
     }
 
+    // Connect new socket
     socket.current = io(import.meta.env.VITE_API_BASE_URL || "http://localhost:4000", {
       transports: ["websocket"],
       reconnectionAttempts: 5,
     });
 
-    socket.current.on("connect", () => {
-      console.log("✅ Connected to Socket.IO:", socket.current.id);
-      socket.current.emit("register", user.id);
+    const s = socket.current;
+
+    s.on("connect", () => {
+      console.log("✅ Connected to Socket.IO:", s.id);
+      s.emit("register", user.id);
+
+      // 🔔 Trigger a custom event so other components know socket is ready
+      window.dispatchEvent(new Event("socket-ready"));
     });
 
-    socket.current.on("disconnect", () => {
-      console.log("❌ Disconnected from Socket.IO");
-    });
+    s.on("disconnect", () => console.log("❌ Disconnected from Socket.IO"));
 
-    return () => {
-      socket.current?.disconnect();
-    };
+    return () => s.disconnect();
   }, [user?.id]);
 
-  return (
-    <SocketContext.Provider value={socket.current}>
-      {children}
-    </SocketContext.Provider>
-  );
+  return <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>;
 };

@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import RenameOrganizationModal from "./RenameOrganizationModal";
 import InviteMemberModal from "./InviteMemberModal";
-import { getUserOrgs, setActiveOrg as apiSetActiveOrg } from "../api/org";
+import { getUserOrgs, setActiveOrg as apiSetActiveOrg, getOrganizationById } from "../api/org";
 
 export default function OrgDropdown() {
   const { activeOrg, setActiveOrg, user } = useContext(UserContext);
@@ -18,7 +18,24 @@ export default function OrgDropdown() {
     const fetchOrgs = async () => {
       try {
         const data = await getUserOrgs(user.id);
-        setOrgs(data.organizations || []);
+        
+         console.log(data.memberships)
+        const memberships = data.memberships || [];
+
+      // Fetch organization details for each membership
+      const orgsWithNames = await Promise.all(
+        memberships.map(async (m) => {
+          const orgData = await getOrganizationById(m.organization_id);
+          return {
+            organization_id: m.organization_id,
+            id:m.id,
+            role: m.role,
+            name: orgData.org.name, // adjust according to API response
+          };
+        })
+      );
+
+        setOrgs(orgsWithNames || []);
       } catch (err) {
         console.error("Failed to fetch organizations:", err);
       }
@@ -28,9 +45,12 @@ export default function OrgDropdown() {
   }, [user]);
 
   const handleSwitchOrg = async (org) => {
+   // console.log(org)
     try {
-      await apiSetActiveOrg(org.id); // backend API call to set active org
-      setActiveOrg(org);             // update context
+      await apiSetActiveOrg(user.id,org.organization_id); // backend API call to set active org
+      const setorgdata={id:org.organization_id,name:org.name};
+      
+      setActiveOrg(setorgdata);             // update context
       setOpen(false);                // close dropdown
     } catch (err) {
       console.error("Failed to switch organization:", err);
@@ -54,7 +74,7 @@ export default function OrgDropdown() {
       {open && (
         <ul
           className="dropdown-menu show"
-          style={{ position: "absolute", right: 0, top: "100%" }}
+          style={{ position: "absolute", right: -111, top: "100%" }}
         >
           {/* Switch Organization */}
           {orgs.map((org) => (

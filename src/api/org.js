@@ -8,6 +8,7 @@ export const getUserOrgs = async (user_id) => {
 
 // Set active organization
 export const setActiveOrg = async (user_id, organization_id) => {
+  console.log(user_id,organization_id)
   const response = await API.put('/orgs/active', { user_id, organization_id });
   return response.data;
 };
