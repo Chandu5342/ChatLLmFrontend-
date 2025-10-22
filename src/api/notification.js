@@ -1,8 +1,8 @@
 import axios from "axios";
 import { getToken } from "../utils/auth";
 
-const BASE_URL = "http://localhost:4000/api/notifications";
-
+//const BASE_URL = "http://localhost:4000/api/notifications";
+const BASE_URL = "https://aichatbackend-ulkv.onrender.com/api/notifications";
 // Create notification
 export const createNotificationAPI = async (user_id, organization_id, message) => {
   const token = getToken();
