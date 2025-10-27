@@ -8,41 +8,41 @@ Users can sign up, chat with an AI assistant, manage organizations, and receive 
 ##  Live App
 [https://chatllm.vercel.app/](https://chat-l-lm-frontend.vercel.app/)
 
-## 🧠 GitHub Repository
+## GitHub Repository
 
 https://github.com/Chandu5342/ChatLLmFrontend
 ---
 
-## 🚀 Features
+## Features
 
-### 🔐 Authentication & Onboarding
+###  Authentication & Onboarding
 - Username/password and Google OAuth 2.0 login.
 - Auto-creates a default organization for new users.
 - Secure JWT-based authentication.
 
-### 💬 Chat Interface
+###  Chat Interface
 - ChatGPT-style responsive UI.
 - Persistent message history stored in PostgreSQL.
 - Dynamic credit counter and notifications panel.
 
-### ⚡ Credit System
+###  Credit System
 - Deducts credits per AI interaction.
 - Prevents new messages when credits are exhausted.
 - Displays real-time balance in the header.
 
-### 🏢 Organization Management
+###  Organization Management
 - Rename, create, and switch between organizations.
 - Invite members (email record only, no actual send).
 - Manage organization members and roles.
 
-### 🔔 Real-Time Notifications
+###  Real-Time Notifications
 - Built with **WebSocket (Socket.IO)**.
 - Supports both global and user-specific notifications.
 - Notification history persisted in PostgreSQL.
 
 ---
 
-## 🧩 Tech Stack
+##  Tech Stack
 
 | Layer | Technologies |
 |-------|---------------|
