@@ -5,12 +5,12 @@ Users can sign up, chat with an AI assistant, manage organizations, and receive 
 
 ---
 
-## 🌐 Live App
-[https://chatllm.vercel.app/](https://chatllm.vercel.app/)
+##  Live App
+[https://chatllm.vercel.app/](https://chat-l-lm-frontend.vercel.app/)
 
 ## 🧠 GitHub Repository
 
-
+https://github.com/Chandu5342/ChatLLmFrontend
 ---
 
 ## 🚀 Features
@@ -55,8 +55,8 @@ Users can sign up, chat with an AI assistant, manage organizations, and receive 
 | **Deployment** | Vercel (frontend), Render (backend) |
 
 ```
-git clone https://github.com/Chandu5342/ChatLLM.git
-cd ChatLLM
+git clone https://github.com/Chandu5342/ChatLLmFrontend
+cd ChatLLmFrontend
 
 # Backend setup
 cd server
