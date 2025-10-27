@@ -78,7 +78,7 @@ JWT_SECRET=supersecret_jwt_key
 JWT_EXPIRES_IN=7d
 DB_URL=postgresql://postgres.bdnodwywqgrntxklnhbx:.........@@aws-1-us-east-2.pooler.supabase.com:6543/postgres?pgbouncer=true
 GOOGLE_CLIENT_ID=887989750531-v7t9k9unkevd9q6lk9ng18o00i2uhtoa.apps.googleusercontent.com
-GEMINI_API_KEY=AIzaSyCoSV_7D60Qe_qEm1vzFM0i8xZgtCML_5k
+GEMINI_API_KEY=kkkj
 
 
 
