@@ -19,6 +19,7 @@ export const getUserById = async (id) => {
   return response.data;
 };
 
+
 export const getUserCredits = async (userId) => {
   const res = await API.get(`/users/${userId}/credits`, {
     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },

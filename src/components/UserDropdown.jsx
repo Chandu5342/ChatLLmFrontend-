@@ -1,3 +1,4 @@
+// src/components/UserDropdown.jsx
 import React, { useState, useContext } from "react";
 import { User as UserIcon } from "lucide-react";
 import { UserContext } from "../context/UserContext";
@@ -9,14 +10,9 @@ export default function UserDropdown({ user }) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // 1️⃣ Remove auth token
     localStorage.removeItem("token");
-
-    // 2️⃣ Reset user context
     setUser(null);
     setActiveOrg(null);
-
-    // 3️⃣ Redirect to login page
     navigate("/login");
   };
 
@@ -27,7 +23,7 @@ export default function UserDropdown({ user }) {
         onClick={() => setOpen((prev) => !prev)}
       >
         <UserIcon size={18} className="me-2" />
-        {user?.name || "Guest"}
+        {user?.username || "Guest"}
       </button>
 
       {open && (

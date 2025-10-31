@@ -13,6 +13,7 @@ export default function Chat() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isTyping, setIsTyping] = useState(false); // ✅ AI typing state
 
   useEffect(() => {
     if (!activeOrg?.id) return;
@@ -48,29 +49,45 @@ export default function Chat() {
     fetchMessages();
   }, [selectedChat]);
 
- const handleSendMessage = async (content) => {
+  const handleSendMessage = async (content) => {
     if (!content.trim()) return;
+
     let chatToUse = selectedChat;
+
     try {
+      // ✅ Create new chat if none selected
       if (!chatToUse?.id) {
         const title = content.length > 30 ? content.slice(0, 30) + "..." : content;
         const newChat = await createChat(activeOrg.id, user.id, title || "New Chat");
         setChats((prev) => [newChat, ...prev]);
         setSelectedChat(newChat);
-        chatToUse = newChat.chat;
+        chatToUse = newChat.chat; 
       }
-      console.log(chatToUse)
+
+      // ✅ Add user message instantly
       const tempMessage = { id: Date.now(), role: "user", content };
       setMessages((prev) => [...prev, tempMessage]);
 
+      // ✅ Show typing indicator
+      setIsTyping(true);
+
+      // Send to backend AI
       await sendMessageToLLM(chatToUse.id, user.id, content);
 
+      // Load updated messages
       const updated = await getChatMessages(chatToUse.id);
       setMessages(updated.messages);
+
     } catch (err) {
       console.error("Failed to send message:", err);
+    } finally {
+      // ✅ Hide typing indicator
+      setIsTyping(false);
     }
   };
+
+
+
   const handleNewChat = () => {
     setSelectedChat(null);
     setMessages([]);
@@ -89,7 +106,7 @@ export default function Chat() {
         />
 
         <div className="d-flex flex-column flex-grow-1" style={{ minHeight: 0 }}>
-          <ChatWindow chat={selectedChat} messages={messages} />
+          <ChatWindow chat={selectedChat} messages={messages} isTyping={isTyping} /> {/* ✅ Pass typing state */}
           <MessageInput onSendMessage={handleSendMessage} />
         </div>
       </div>
